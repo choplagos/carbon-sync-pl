@@ -3,6 +3,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import { auditDocumentSchema } from "@/lib/schemas/emissions";
 import { getSupabaseAdmin, requireCompanyMember, AuthError } from "@/lib/supabase/server";
 import { extractAndInsertEmissions, ExtractionError } from "@/lib/server/gemini-extraction";
+import { authMiddleware } from "@/lib/server-fns/auth-middleware";
 
 /**
  * Buyer-side "re-audit this document" action — requires the caller to be an
@@ -11,6 +12,7 @@ import { extractAndInsertEmissions, ExtractionError } from "@/lib/server/gemini-
  * see submit-supplier-document.ts instead.
  */
 export const auditDocument = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator(auditDocumentSchema)
   .handler(async ({ data }) => {
     const request = getRequest();
