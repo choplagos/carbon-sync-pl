@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { generateReportSnapshotSchema } from "@/lib/schemas/emissions";
 import { getSupabaseAdmin, requireCompanyMember, AuthError } from "@/lib/supabase/server";
-
+import { authMiddleware } from "@/lib/server-fns/auth-middleware";
 /**
  * Computes the report snapshot server-side from suppliers + emissions_data
  * — the client never gets to submit its own aggregate numbers for
