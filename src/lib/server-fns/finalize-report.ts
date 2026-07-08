@@ -2,8 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { finalizeReportSchema } from "@/lib/schemas/emissions";
 import { getSupabaseAdmin, requireCompanyMember, AuthError } from "@/lib/supabase/server";
+import { authMiddleware } from "@/lib/server-fns/auth-middleware";
 
 export const finalizeReport = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator(finalizeReportSchema)
   .handler(async ({ data }) => {
     const request = getRequest();
