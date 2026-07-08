@@ -12,6 +12,7 @@ import { authMiddleware } from "@/lib/server-fns/auth-middleware";
  * the DB trigger (lock_finalized_reports) would reject that anyway.
  */
 export const generateReportSnapshot = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator(generateReportSnapshotSchema)
   .handler(async ({ data }) => {
     const request = getRequest();
