@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { correctEmissionSchema } from "@/lib/schemas/emissions";
 import { getSupabaseAdmin, requireCompanyMember, AuthError } from "@/lib/supabase/server";
+import { authMiddleware } from "@/lib/server-fns/auth-middleware";
 
 /**
  * Lets an authenticated buyer-side user override an AI-extracted co2e_kg
@@ -12,6 +13,7 @@ import { getSupabaseAdmin, requireCompanyMember, AuthError } from "@/lib/supabas
  * needed here.
  */
 export const correctEmission = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator(correctEmissionSchema)
   .handler(async ({ data }) => {
     const request = getRequest();
