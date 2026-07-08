@@ -1,0 +1,179 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "@fontsource-variable/inter";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Bloomberg-terminal density design system.
+ * Charcoal surfaces, amber+green accents, JetBrains Mono for numerics.
+ */
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-terminal-amber: var(--terminal-amber);
+  --color-terminal-green: var(--terminal-green);
+  --color-terminal-red: var(--terminal-red);
+  --color-terminal-cyan: var(--terminal-cyan);
+  --color-terminal-dim: var(--terminal-dim);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-grid: var(--grid);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --radius: 3px;
+
+  /* Base surfaces — charcoal terminal */
+  --background: oklch(0.14 0.005 240);
+  --foreground: oklch(0.94 0.005 90);
+  --surface-1: oklch(0.17 0.006 240);
+  --surface-2: oklch(0.21 0.007 240);
+  --grid: oklch(0.28 0.008 240);
+
+  --card: oklch(0.17 0.006 240);
+  --card-foreground: oklch(0.94 0.005 90);
+  --popover: oklch(0.19 0.007 240);
+  --popover-foreground: oklch(0.94 0.005 90);
+
+  /* Amber = primary action, brand */
+  --primary: oklch(0.78 0.16 75);
+  --primary-foreground: oklch(0.14 0.005 240);
+
+  --secondary: oklch(0.24 0.008 240);
+  --secondary-foreground: oklch(0.94 0.005 90);
+  --muted: oklch(0.22 0.007 240);
+  --muted-foreground: oklch(0.65 0.01 240);
+  --accent: oklch(0.26 0.01 240);
+  --accent-foreground: oklch(0.94 0.005 90);
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.28 0.008 240);
+  --input: oklch(0.22 0.007 240);
+  --ring: oklch(0.78 0.16 75);
+
+  /* Terminal semantic accents */
+  --terminal-amber: oklch(0.82 0.17 78);
+  --terminal-green: oklch(0.74 0.19 155);
+  --terminal-red: oklch(0.65 0.22 25);
+  --terminal-cyan: oklch(0.75 0.11 210);
+  --terminal-dim: oklch(0.55 0.01 240);
+
+  --chart-1: oklch(0.74 0.19 155);
+  --chart-2: oklch(0.82 0.17 78);
+  --chart-3: oklch(0.75 0.11 210);
+  --chart-4: oklch(0.65 0.22 25);
+  --chart-5: oklch(0.7 0.14 300);
+
+  --sidebar: oklch(0.12 0.005 240);
+  --sidebar-foreground: oklch(0.85 0.005 90);
+  --sidebar-primary: oklch(0.82 0.17 78);
+  --sidebar-primary-foreground: oklch(0.14 0.005 240);
+  --sidebar-accent: oklch(0.2 0.007 240);
+  --sidebar-accent-foreground: oklch(0.94 0.005 90);
+  --sidebar-border: oklch(0.24 0.008 240);
+  --sidebar-ring: oklch(0.82 0.17 78);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01", "ss03";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tabular numerics everywhere by default in this app */
+  .font-mono,
+  code,
+  pre,
+  kbd {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Subtle terminal scanline background on shells */
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+  }
+}
+
+@utility text-amber {
+  color: var(--terminal-amber);
+}
+@utility text-green {
+  color: var(--terminal-green);
+}
+@utility text-red {
+  color: var(--terminal-red);
+}
+@utility text-cyan {
+  color: var(--terminal-cyan);
+}
+@utility text-dim {
+  color: var(--terminal-dim);
+}
+@utility bg-surface-1 {
+  background-color: var(--surface-1);
+}
+@utility bg-surface-2 {
+  background-color: var(--surface-2);
+}
