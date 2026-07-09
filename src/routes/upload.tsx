@@ -311,7 +311,7 @@ function UploadPortal() {
                     {it.status === "audited" && it.co2eKg != null && (
                       <div className="mt-1.5 flex items-center gap-3 text-[11px]">
                         <span className="text-green inline-flex items-center gap-1">
-                          <Check className="h-3 w-3" /> Audited by Gemini 2.5 Pro
+                          <Check className="h-3 w-3" /> Audited by Gemini 2.5 Flash
                         </span>
                         <span className="text-amber tabular-nums">
                           {new Intl.NumberFormat().format(Math.round(it.co2eKg))} kg CO₂e
