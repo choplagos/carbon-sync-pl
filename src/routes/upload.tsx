@@ -112,16 +112,22 @@ function UploadPortal() {
           data: { uploadToken, storagePath: path },
         });
 
+        // Validate BEFORE calling setItems — reading result.co2e.totalKg
+        // inside the updater callback below would throw during React's
+        // render phase, outside this try/catch, crashing the whole page
+        // instead of being caught here.
+        if (!result?.co2e || !result?.extracted) {
+          throw new Error(
+            "Unexpected response from server — document may not have processed correctly.",
+          );
+        }
+        const co2eKg = result.co2e.totalKg;
+        const confidence = result.extracted.confidenceScore;
+
         setItems((prev) =>
           prev.map((x) =>
             x.id === fileItemId
-              ? {
-                  ...x,
-                  progress: 100,
-                  status: "audited",
-                  co2eKg: result.co2e.totalKg,
-                  confidence: result.extracted.confidenceScore,
-                }
+              ? { ...x, progress: 100, status: "audited", co2eKg, confidence }
               : x,
           ),
         );
