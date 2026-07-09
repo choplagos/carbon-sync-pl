@@ -57,6 +57,7 @@ export async function extractAndInsertEmissions(params: {
   const admin = getSupabaseAdmin();
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
   if (!GEMINI_API_KEY) {
+    console.error("[gemini-extraction] missing GEMINI_API_KEY env var");
     throw new ExtractionError(500, "missing_credentials", "GEMINI_API_KEY not configured.");
   }
 
@@ -65,6 +66,10 @@ export async function extractAndInsertEmissions(params: {
     .download(params.storagePath);
 
   if (downloadError || !fileBlob) {
+    console.error("[gemini-extraction] storage download failed", {
+      path: params.storagePath,
+      error: downloadError,
+    });
     throw new ExtractionError(
       502,
       "storage_fetch_failed",
@@ -114,6 +119,11 @@ export async function extractAndInsertEmissions(params: {
 
   if (!geminiRes.ok) {
     const detail = await geminiRes.text();
+    console.error("[gemini-extraction] Gemini API call failed", {
+      status: geminiRes.status,
+      statusText: geminiRes.statusText,
+      detail,
+    });
     throw new ExtractionError(502, "gemini_failed", detail);
   }
 
@@ -129,6 +139,7 @@ export async function extractAndInsertEmissions(params: {
   try {
     extracted = JSON.parse(text);
   } catch {
+    console.error("[gemini-extraction] failed to parse Gemini JSON response", { text });
     throw new ExtractionError(502, "gemini_parse_failed", text);
   }
 
@@ -171,6 +182,10 @@ export async function extractAndInsertEmissions(params: {
     .single();
 
   if (insertError) {
+    console.error("[gemini-extraction] emissions_data insert failed", {
+      supplierId: params.supplierId,
+      error: insertError,
+    });
     throw new ExtractionError(502, "insert_failed", insertError.message);
   }
 
